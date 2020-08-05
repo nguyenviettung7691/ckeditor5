@@ -16,6 +16,7 @@ import Underline from '@ckeditor/ckeditor5-basic-styles/src/underline';
 import Subscript from '@ckeditor/ckeditor5-basic-styles/src/subscript';
 import Superscript from '@ckeditor/ckeditor5-basic-styles/src/superscript';
 import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote';
+import Font from '@ckeditor/ckeditor5-font/src/font';
 import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
 import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
 import Heading from '@ckeditor/ckeditor5-heading/src/heading';
@@ -46,6 +47,7 @@ const plugins = [
 	Autoformat,
 	Bold, Italic,Underline, Subscript, Superscript,
 	BlockQuote,
+	Font,
 	CKFinder,
 	EasyImage,
 	Heading,
@@ -72,6 +74,7 @@ const config = {
 	toolbar: {
 		items: [
 			'heading',
+			'fontSize', 'fontColor', 'fontBackgroundColor',
 			'|',
 			'bold', 'italic', 'underline', 'subscript', 'superscript',
 			'link',
