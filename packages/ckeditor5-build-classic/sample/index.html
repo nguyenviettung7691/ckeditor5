@@ -28,14 +28,21 @@
 
 <script src="../build/ckeditor.js"></script>
 <script>
+    var editorConfig = {
+        file: {
+            upload: {
+                types: 'pdf,docx,xlsx,pptx,jpeg,jpg,gif,png,svg,mp3,ogg,mp4,m4v,ogv,html,zip'
+            }
+        }
+    };
     CKEDITOR.ClassicEditor
-        .create( document.querySelector( '#classic-editor' ) )
+        .create( document.querySelector( '#classic-editor' ), editorConfig )
         .catch( err => {
             console.error( err.stack );
         } );
 
     CKEDITOR.InlineEditor
-        .create( document.querySelector( '#inline-editor' ) )
+        .create( document.querySelector( '#inline-editor' ), editorConfig )
         .catch( err => {
             console.error( err.stack );
         } );

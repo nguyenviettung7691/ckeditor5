@@ -8,7 +8,8 @@ export default class FileUpload extends Plugin {
         editor.ui.componentFactory.add( 'fileUpload', locale => {
             const view = new FileDialogButtonView( locale );
             const command = editor.commands.get( 'imageUpload' );
-            const fileTypes = '.pdf,.docx,.xlsx,.pptx,.jpeg,.jpg,.gif,.png,.svg,.mp3,.ogg,.mp4,.m4v,.ogv,.html,.zip'.split(','); //editor.config.get( 'file.upload.types' );
+            const fileTypes = editor.config.get( 'file.upload.types' ).split(',').map(function(type){ return '.' + type; });
+            //'.pdf,.docx,.xlsx,.pptx,.jpeg,.jpg,.gif,.png,.svg,.mp3,.ogg,.mp4,.m4v,.ogv,.html,.zip'
             // Sanitize the MIME type name which may include: "+", "-" or ".".
 			const regExpSafeNames = fileTypes.map( type => type.replace( '+', '\\+' ).replace('/', '\/') );
             const fileTypesRegExp = new RegExp( `^(${ regExpSafeNames.join( '|' ) })$` );
