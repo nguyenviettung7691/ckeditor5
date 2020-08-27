@@ -3,15 +3,16 @@ import FileDialogButtonView from '@ckeditor/ckeditor5-upload/src/ui/filedialogbu
 
 export default class FileUpload extends Plugin {
     init() {
-        // Custom FileUpload button
+		// Custom FileUpload button
+		const editor = this.editor;
         editor.ui.componentFactory.add( 'fileUpload', locale => {
             const view = new FileDialogButtonView( locale );
             const command = editor.commands.get( 'imageUpload' );
-            const fileTypes = editor.config.get( 'file.upload.types' );
+            const fileTypes = '.pdf,.docx,.xlsx,.pptx,.jpeg,.jpg,.gif,.png,.svg,.mp3,.ogg,.mp4,.m4v,.ogv,.html,.zip'.split(','); //editor.config.get( 'file.upload.types' );
             // Sanitize the MIME type name which may include: "+", "-" or ".".
-            const regExpSafeNames = fileTypes.map( type => type.replace( '+', '\\+' ).replace('/', '\/') );
+			const regExpSafeNames = fileTypes.map( type => type.replace( '+', '\\+' ).replace('/', '\/') );
             const fileTypesRegExp = new RegExp( `^(${ regExpSafeNames.join( '|' ) })$` );
-            
+
             view.set( {
                 acceptedType: fileTypes.map( type => `${ type }` ).join( ',' ),
                 allowMultipleFiles: false
@@ -23,11 +24,8 @@ export default class FileUpload extends Plugin {
                 tooltip: true
             } );
 
-            view.buttonView.bind( 'isEnabled' ).to( command );
-
             view.on( 'done', ( evt, files ) => {
-                const filesToUpload = Array.from( files ).filter( file => fileTypesRegExp.test( file.type ) );
-
+                const filesToUpload = Array.from( files ).filter( file => fileTypesRegExp.test( this.getExt(file.name) ) );
                 if ( filesToUpload.length ) {
                     editor.execute( 'imageUpload', { file: filesToUpload } );
                 }
@@ -35,5 +33,9 @@ export default class FileUpload extends Plugin {
 
             return view;
         } );
-    }
+	}
+
+	getExt(fileName){
+		return fileName ? fileName.substr(fileName.lastIndexOf('.')) : '';
+	}
 }
