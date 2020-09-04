@@ -27,6 +27,7 @@ import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
 import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
 import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent';
+import IndentBlock from '@ckeditor/ckeditor5-indent/src/indentblock';
 import Link from '@ckeditor/ckeditor5-link/src/link';
 import List from '@ckeditor/ckeditor5-list/src/list';
 import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed';
@@ -50,14 +51,14 @@ class ClassicEditor extends ClassicEditorBase {}
 class InlineEditor extends InlineEditorBase {}
 
 // Custom plugin
-const customPlugins = [ MathInput, BrokenLink, FileUpload ];
+const customPlugins = [ MathInput, BrokenLink ];
 
 // Plugins to include in the build.
 const plugins = [
 	Essentials,
 	UploadAdapter,
 	Autoformat,
-	Bold, Italic,Underline, Subscript, Superscript,
+	Bold, Italic, Underline, Subscript, Superscript,
 	BlockQuote,
 	Font,
 	CKFinder,
@@ -68,7 +69,7 @@ const plugins = [
 	ImageStyle,
 	ImageToolbar,
 	ImageUpload,
-	Indent,
+	Indent, IndentBlock,
 	Link,
 	List,
 	MediaEmbed,
