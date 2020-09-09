@@ -6,7 +6,6 @@
 // The editor creator to use.
 import ClassicEditorBase from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 import InlineEditorBase from '@ckeditor/ckeditor5-editor-inline/src/inlineeditor';
-import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
 // Import core plugins
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 import UploadAdapter from '@ckeditor/ckeditor5-adapter-ckfinder/src/uploadadapter';
@@ -51,7 +50,7 @@ class ClassicEditor extends ClassicEditorBase {}
 class InlineEditor extends InlineEditorBase {}
 
 // Custom plugin
-const customPlugins = [ MathInput, BrokenLink ];
+const customPlugins = [ MathInput, BrokenLink, FileUpload ];
 
 // Plugins to include in the build.
 const plugins = [
@@ -76,8 +75,7 @@ const plugins = [
 	Paragraph,
 	PasteFromOffice,
 	Table, TableToolbar, TableProperties, TableCellProperties,
-	TextTransformation,
-	SimpleUploadAdapter
+	TextTransformation
 ];
 // Merge 2 plugins arrays
 const builtinPlugins = plugins.concat(customPlugins);
@@ -127,6 +125,10 @@ const config = {
 			'tableProperties',
 			'tableCellProperties'
 		]
+	},
+	link: {
+		// Automatically add target="_blank" and rel="noopener noreferrer" to all external links.
+		addTargetToExternalLinks: true,
 	},
 	// This value must be kept in sync with the language defined in webpack.config.js.
 	language: 'en'
