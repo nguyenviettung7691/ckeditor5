@@ -178,6 +178,8 @@ export default class FileUpload extends Plugin {
 					writer.setAttribute( 'uploadStatus', 'uploading', placeholderElement );
 				} );
 
+				csl.app.showLoadingProgress(0.5);
+
 				return promise;
 			} )
 			.then( data => {
@@ -222,6 +224,8 @@ export default class FileUpload extends Plugin {
 			} );
 
 			fileRepository.destroyLoader( loader );
+
+			csl.app.hideLoadingProgress();
 		}
 	}
 
