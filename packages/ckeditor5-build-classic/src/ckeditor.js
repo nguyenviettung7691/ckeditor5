@@ -25,6 +25,8 @@ import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption';
 import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
 import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
 import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
+import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
+import LinkImage from '@ckeditor/ckeditor5-link/src/linkimage';
 import Indent from '@ckeditor/ckeditor5-indent/src/indent';
 import IndentBlock from '@ckeditor/ckeditor5-indent/src/indentblock';
 import Link from '@ckeditor/ckeditor5-link/src/link';
@@ -46,11 +48,11 @@ import BrokenLink from './brokenLink';
 // Inspector (REMOVE for Production)
 import CKEditorInspector from '@ckeditor/ckeditor5-inspector';
 
-class ClassicEditor extends ClassicEditorBase {}
-class InlineEditor extends InlineEditorBase {}
+class ClassicEditor extends ClassicEditorBase { }
+class InlineEditor extends InlineEditorBase { }
 
 // Custom plugin
-const customPlugins = [ MathInput, BrokenLink, FileUpload ];
+const customPlugins = [MathInput, BrokenLink, FileUpload];
 
 // Plugins to include in the build.
 const plugins = [
@@ -63,10 +65,7 @@ const plugins = [
 	CKFinder,
 	EasyImage,
 	Heading,
-	Image,
-	ImageCaption,
-	ImageStyle,
-	ImageToolbar,
+	Image, ImageCaption, ImageStyle, ImageToolbar, ImageResize, LinkImage,
 	ImageUpload,
 	Indent, IndentBlock,
 	Link,
@@ -114,7 +113,9 @@ const config = {
 			'imageStyle:full',
 			'imageStyle:side',
 			'|',
-			'imageTextAlternative'
+			'imageTextAlternative',
+			'|',
+			'linkImage'
 		]
 	},
 	table: {
@@ -138,6 +139,6 @@ ClassicEditor.defaultConfig = config;
 InlineEditor.defaultConfig = config;
 
 export default {
-    ClassicEditor, InlineEditor, CKEditorInspector
+	ClassicEditor, InlineEditor, CKEditorInspector
 };
 
