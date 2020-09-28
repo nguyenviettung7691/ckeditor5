@@ -230,7 +230,7 @@ export default class FileUpload extends Plugin {
 	}
 
 	getExt(fileName){
-		return fileName ? fileName.substr(fileName.lastIndexOf('.')) : '';
+		return fileName ? fileName.substr(fileName.lastIndexOf('.')).toLowerCase() : '';
     }
 }
 
