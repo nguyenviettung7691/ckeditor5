@@ -39,6 +39,7 @@ import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
 import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
+import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline';
 
 // Custom plugin
 import FileUpload from './fileUpload';
@@ -74,7 +75,8 @@ const plugins = [
 	Paragraph,
 	PasteFromOffice,
 	Table, TableToolbar, TableProperties, TableCellProperties,
-	TextTransformation
+	TextTransformation,
+	HorizontalLine
 ];
 // Merge 2 plugins arrays
 const builtinPlugins = plugins.concat(customPlugins);
@@ -105,7 +107,8 @@ const config = {
 			'brokenLink',
 			'|',
 			'undo',
-			'redo'
+			'redo',
+			'horizontalLine'
 		]
 	},
 	image: {

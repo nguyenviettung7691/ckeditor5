@@ -39,6 +39,7 @@
     "@ckeditor/ckeditor5-essentials": "^21.0.0",
     "@ckeditor/ckeditor5-font": "^21.0.0",
     "@ckeditor/ckeditor5-heading": "^21.0.0",
+    "@ckeditor/ckeditor5-horizontal-line": "^21.0.0",
     "@ckeditor/ckeditor5-image": "^21.0.0",
     "@ckeditor/ckeditor5-indent": "^21.0.0",
     "@ckeditor/ckeditor5-inspector": "^2.2.0",
