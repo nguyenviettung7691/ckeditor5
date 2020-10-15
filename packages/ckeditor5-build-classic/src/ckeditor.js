@@ -40,6 +40,7 @@ import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
 import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
 import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline';
+import Mention from '@ckeditor/ckeditor5-mention/src/mention';
 
 // Custom plugin
 import FileUpload from './fileUpload';
@@ -71,6 +72,7 @@ const plugins = [
 	Indent, IndentBlock,
 	Link,
 	List,
+	Mention,
 	MediaEmbed,
 	Paragraph,
 	PasteFromOffice,
@@ -143,6 +145,14 @@ const config = {
 			'imageTextAlternative',
 			'|',
 			'linkImage'
+		]
+	},
+	mention: {
+		feeds: [
+			{
+				marker: '@',
+				minimumCharacters: 3
+			}
 		]
 	},
 	table: {
