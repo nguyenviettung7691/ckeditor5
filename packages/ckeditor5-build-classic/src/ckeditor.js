@@ -41,12 +41,12 @@ import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperti
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
 import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline';
 import Mention from '@ckeditor/ckeditor5-mention/src/mention';
-import Fullscreen from './fullscreen-plugin/FullScreen';
 
 // Custom plugin
 import FileUpload from './fileUpload';
 import MathInput from './mathInput';
 import BrokenLink from './brokenLink';
+import Fullscreen from './fullscreen-plugin/FullScreen';
 
 // Inspector (REMOVE for Production)
 import CKEditorInspector from '@ckeditor/ckeditor5-inspector';
@@ -55,7 +55,7 @@ class ClassicEditor extends ClassicEditorBase { }
 class InlineEditor extends InlineEditorBase { }
 
 // Custom plugin
-const customPlugins = [MathInput, BrokenLink, FileUpload];
+const customPlugins = [MathInput, BrokenLink, FileUpload, Fullscreen];
 
 // Plugins to include in the build.
 const plugins = [
@@ -79,8 +79,7 @@ const plugins = [
 	PasteFromOffice,
 	Table, TableToolbar, TableProperties, TableCellProperties,
 	TextTransformation,
-	HorizontalLine,
-	Fullscreen
+	HorizontalLine
 ];
 // Merge 2 plugins arrays
 const builtinPlugins = plugins.concat(customPlugins);
