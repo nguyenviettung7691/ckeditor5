@@ -41,6 +41,7 @@ import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperti
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
 import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline';
 import Mention from '@ckeditor/ckeditor5-mention/src/mention';
+import Fullscreen from './fullscreen-plugin/FullScreen';
 
 // Custom plugin
 import FileUpload from './fileUpload';
@@ -78,7 +79,8 @@ const plugins = [
 	PasteFromOffice,
 	Table, TableToolbar, TableProperties, TableCellProperties,
 	TextTransformation,
-	HorizontalLine
+	HorizontalLine,
+	Fullscreen
 ];
 // Merge 2 plugins arrays
 const builtinPlugins = plugins.concat(customPlugins);
@@ -96,6 +98,8 @@ const config = {
 			'link',
 			'bulletedList',
 			'numberedList',
+			'horizontalLine',
+			'fullScreen',
 			'|',
 			'indent',
 			'outdent',
@@ -109,8 +113,7 @@ const config = {
 			'brokenLink',
 			'|',
 			'undo',
-			'redo',
-			'horizontalLine'
+			'redo'
 		]
 	},
 	image: {
