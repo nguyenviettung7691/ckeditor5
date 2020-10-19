@@ -150,14 +150,6 @@ const config = {
 			'linkImage'
 		]
 	},
-	mention: {
-		feeds: [
-			{
-				marker: '@',
-				minimumCharacters: 3
-			}
-		]
-	},
 	table: {
 		contentToolbar: [
 			'tableColumn',
