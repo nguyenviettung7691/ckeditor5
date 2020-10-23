@@ -9,75 +9,92 @@ export default class FullScreen extends Plugin {
         const editor = this.editor;
         editor.ui.componentFactory.add( 'fullScreen', locale => {
             const view = new ButtonView( locale );
-            let etatWiki = 0; //si 0 position normale
-            let etatWall = 0;
+            let classicEditorFullsceen = 0; //si 0 position normale
+            let inlineEditorFullsceen = 0;
             view.set( {
                 label: 'Fullscreen',
                 icon: MaximizeIcon,
                 tooltip: true
-            } );
+			} );
 
             // Callback executed once the image is clicked.
-            view.on( 'execute', () => {
-                let wiki = document.getElementsByClassName("ck ck-reset ck-editor ck-rounded-corners");
-                if (wiki.length !== 0) {
-                    if (etatWiki==1) {
-                        wiki[0].removeAttribute('id');
+            view.on( 'execute', (event) => {
+				let expandButtonNode = event.source.element;
+				let expandButtonParent = expandButtonNode.parentElement;
+                let isInlineEditor = false;
+				while ( expandButtonParent != null ) {
+					if( (expandButtonParent.className == 'ck ck-balloon-panel ck-balloon-panel_toolbar_west ck-balloon-panel_visible ck-toolbar-container') || (expandButtonParent.className == 'ck ck-balloon-panel ck-balloon-panel_toolbar_west ck-toolbar-container') ) {
+                        isInlineEditor = true;
+						break;
+					}
+					else {
+                        expandButtonParent = expandButtonParent.parentElement;
+					}
+				}
+                if (isInlineEditor) {
+                    if (inlineEditorFullsceen == 1) {
+						let inlineEditorParent = editor.sourceElement.parentElement;
+						let bodyDocument = document.getElementsByTagName("BODY");
+						inlineEditorParent.removeAttribute('id');
+                        expandButtonParent.removeAttribute('id');
                         view.set( {
                             label: 'Fullscreen',
                             icon: MaximizeIcon,
                             tooltip: true
                         } );
-                        etatWiki=0;
+						bodyDocument[0].removeAttribute('style');
+						let dataOnExit = editor.getData();
+						editor.setData(dataOnExit);
+						editor.editing.view.focus();
+						inlineEditorFullsceen=0;
                     }
                     else {
-                        wiki[0].id = "wikiFullscreen";
+						let inlineEditorParent = editor.sourceElement.parentElement;
+                        expandButtonParent.id = "toolbarInlineEditorFullscreen";
+                        inlineEditorParent.id = "bodyInlineEditorFullscreen";
                         view.set( {
                             label: 'Exit Fullscreen',
                             icon: MinimizeIcon,
                             tooltip: true
-                        } );
-                        etatWiki=1;
+						} );
+						let bodyDocument = document.getElementsByTagName("BODY");
+						bodyDocument[0].style.overflow = "hidden";
+                        inlineEditorFullsceen=1;
                     }
-                }
-                else {
-                    if (etatWall==1) {
-                        let wallToolbar = document.getElementsByClassName("ck ck-balloon-panel ck-balloon-panel_toolbar_west ck-toolbar-container");
-                        let wallToolbarLength = wallToolbar.length;
-                        let wallEditor = document.getElementsByClassName("panel panel-default clearfix");
-                        let wallEditorLength = wallEditor.length;
-                        let wallToolbarIndex = wallToolbarLength - 1;
-                        let wallEditorIndex = wallEditorLength - 1;
-                        wallToolbar[wallToolbarIndex].removeAttribute('id');
-                        wallEditor[wallEditorIndex].removeAttribute('id');
-
-                        let content = document.getElementById("topbar-first");
-                        content.click();
-                        view.set( {
-                            label: 'Fullscreen',
-                            icon: MaximizeIcon,
-                            tooltip: true
-                        } );
-                        etatWall=0;
-                    }
-                    else {
-                        let wallToolbar = document.getElementsByClassName("ck ck-balloon-panel ck-balloon-panel_toolbar_west ck-toolbar-container");
-                        let wallToolbarLength = wallToolbar.length;
-                        let wallEditor = document.getElementsByClassName("panel panel-default clearfix");
-                        let wallEditorLength = wallEditor.length;
-                        let wallToolbarIndex = wallToolbarLength - 1;
-                        let wallEditorIndex = wallEditorLength - 1;
-                        wallToolbar[wallToolbarIndex].id = "toolbarFullscreen";
-                        wallEditor[wallEditorIndex].id = "editorFullscreen"
-
-                        view.set( {
-                            label: 'Exit Fullscreen',
-                            icon: MinimizeIcon,
-                            tooltip: true
-                        } );
-                        etatWall=1;
-                    }
-                }
+				}
+				else {
+					expandButtonParent = expandButtonNode.parentElement;
+					while ( expandButtonParent != null ) {
+						if(expandButtonParent.className == 'ck ck-reset ck-editor ck-rounded-corners') {
+							break;
+						}
+						else {
+							expandButtonParent = expandButtonParent.parentElement;
+						}
+					}
+					if (classicEditorFullsceen == 1) {
+						expandButtonParent.removeAttribute('id');
+						view.set( {
+							label: 'Fullscreen',
+							icon: MaximizeIcon,
+							tooltip: true
+						} );
+						let bodyDocument = document.getElementsByTagName("BODY");
+						bodyDocument[0].removeAttribute('style');
+						classicEditorFullsceen=0;
+					}
+					else {
+						expandButtonParent.id = "classicEditorFullscreen";
+						view.set( {
+							label: 'Exit Fullscreen',
+							icon: MinimizeIcon,
+							tooltip: true
+						} );
+						let bodyDocument = document.getElementsByTagName("BODY");
+						bodyDocument[0].style.overflow = "hidden";
+						classicEditorFullsceen=1;
+					}
+				}
             } );
 
             return view;

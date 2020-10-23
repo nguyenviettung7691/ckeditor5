@@ -1,4 +1,4 @@
-#wikiFullscreen {
+#classicEditorFullscreen {
 	height: 100%;
 	position: fixed;
 	z-index: 9999;
@@ -8,16 +8,16 @@
 	left: 0;
 }
 
-#wikiFullscreen .ck.ck-editor__main {
+#classicEditorFullscreen .ck.ck-editor__main {
 	height: 100%;
 }
 
-#wikiFullscreen .ck.ck-editor__main .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred, #wikiFullscreen .ck.ck-editor__main .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused{
+#classicEditorFullscreen .ck.ck-editor__main .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred, #classicEditorFullscreen .ck.ck-editor__main .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused{
 	height: 100%;
 	max-height: 100%;
 }
 
-#toolbarFullscreen {
+#toolbarInlineEditorFullscreen {
 	top: 0 !important;
     left: 0 !important;
     position: fixed;
@@ -26,11 +26,11 @@
     display: block
 }
 
-#toolbarFullscreen .ck.ck-toolbar.ck-toolbar_grouping.ck-toolbar_floating {
+#toolbarInlineEditorFullscreen .ck.ck-toolbar.ck-toolbar_grouping.ck-toolbar_floating {
 	max-width: 9999px !important;
 }
 
-#editorFullscreen .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred{
+#bodyInlineEditorFullscreen .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred{
 	height: 100%;
 	position: fixed;
 	z-index: 9999;
@@ -41,7 +41,7 @@
 	max-height: 100%;
 }
 
-#editorFullscreen .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused{
+#bodyInlineEditorFullscreen .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused{
 	height: 100%;
 	position: fixed;
 	z-index: 9999;
