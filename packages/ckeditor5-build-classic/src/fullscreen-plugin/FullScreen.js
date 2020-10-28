@@ -17,11 +17,26 @@ export default class FullScreen extends Plugin {
                 tooltip: true
 			} );
 
-            // Callback executed once the image is clicked.
+			let liftUpLinkPlugin = function () {
+				let linkPlugin = editor.plugins.get('Link');
+				let linkPluginPopup = linkPlugin.editor.ui.view.body._parentElement;
+				let linkPluginPopupToLift = linkPluginPopup.children[0];
+				linkPluginPopupToLift.style.zIndex = "10000";
+			}
+			let liftUpMathInputPlugin = function () {
+				let mathInputPlugin = document.getElementById("popup-math-input");
+				mathInputPlugin.style.zIndex = "10000";
+			}
+			let liftUpBrokenLinkPlugin = function () {
+				let brokenLinkPlugin = document.querySelector('[aria-hidden="false"]');
+				brokenLinkPlugin.style.zIndex = "10000";
+			}
+            // Callback executed once the expand button is clicked.
             view.on( 'execute', (event) => {
+				let innerHeightCalculated = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 				let expandButtonNode = event.source.element;
 				let expandButtonParent = expandButtonNode.parentElement;
-                let isInlineEditor = false;
+				let isInlineEditor = false;
 				while ( expandButtonParent != null ) {
 					if( (expandButtonParent.className == 'ck ck-balloon-panel ck-balloon-panel_toolbar_west ck-balloon-panel_visible ck-toolbar-container') || (expandButtonParent.className == 'ck ck-balloon-panel ck-balloon-panel_toolbar_west ck-toolbar-container') ) {
                         isInlineEditor = true;
@@ -32,9 +47,44 @@ export default class FullScreen extends Plugin {
 					}
 				}
                 if (isInlineEditor) {
+					function setInnerHeightCalculated(evt, name, isFocused) {
+						if (!isFocused) {
+							let inlineEditorBlur = editor.sourceElement;
+							inlineEditorBlur.style.maxHeight = innerHeightCalculated + "px";
+							inlineEditorBlur.style.overflowY = "auto";
+						}
+						else {
+							let inlineEditorBlur = editor.sourceElement;
+							inlineEditorBlur.style.maxHeight = innerHeightCalculated + "px";
+							inlineEditorBlur.style.overflowY = "auto";
+						}
+					};
                     if (inlineEditorFullsceen == 1) {
+						//Start removing event listener from Link/MathInput/BrokenLink button
+						let toolbarItems = expandButtonParent.firstElementChild;
+						while (toolbarItems != null) {
+							if(toolbarItems.className == 'ck ck-toolbar__items') {
+								break;
+							}
+							else {
+								toolbarItems = toolbarItems.firstElementChild;
+							}
+						}
+						let toolbarItems2 = expandButtonNode.parentElement;
+						let linkButton = toolbarItems.children[10];
+						let mathInputButton = toolbarItems2.children[10];
+						let brokenLinkButton = toolbarItems2.children[12];
+						linkButton.removeEventListener("click", liftUpLinkPlugin, false);
+						mathInputButton.removeEventListener("click", liftUpMathInputPlugin);
+						brokenLinkButton.removeEventListener("click", liftUpBrokenLinkPlugin);
+						//End
+						let inlineEditor = editor.sourceElement;
 						let inlineEditorParent = editor.sourceElement.parentElement;
 						let bodyDocument = document.getElementsByTagName("BODY");
+						//Start removing max-height for editable region
+						inlineEditor.removeAttribute('style');
+						editor.ui.focusTracker.off('change:isFocused');
+						//End
 						inlineEditorParent.removeAttribute('id');
                         expandButtonParent.removeAttribute('id');
                         view.set( {
@@ -49,7 +99,32 @@ export default class FullScreen extends Plugin {
 						inlineEditorFullsceen=0;
                     }
                     else {
+						//Start finding Link/MathInput/BrokenLink button to add event listener
+						let toolbarItems = expandButtonParent.firstElementChild;
+						while (toolbarItems != null) {
+							if(toolbarItems.className == 'ck ck-toolbar__items') {
+								break;
+							}
+							else {
+								toolbarItems = toolbarItems.firstElementChild;
+							}
+						}
+						let toolbarItems2 = expandButtonNode.parentElement;
+						let linkButton = toolbarItems.children[10];
+						let mathInputButton = toolbarItems2.children[10];
+						let brokenLinkButton = toolbarItems2.children[12];
+						linkButton.addEventListener("click", liftUpLinkPlugin, false);
+						mathInputButton.addEventListener("click", liftUpMathInputPlugin);
+						brokenLinkButton.addEventListener("click", liftUpBrokenLinkPlugin);
+
+						//End
+						let inlineEditor = editor.sourceElement;
 						let inlineEditorParent = editor.sourceElement.parentElement;
+						//Start setting max-height for editable region (so that the vertical scrollbar can auto display/hide)
+						inlineEditor.style.maxHeight = innerHeightCalculated + "px";
+						inlineEditor.style.overflow = "auto";
+						editor.ui.focusTracker.on('change:isFocused', setInnerHeightCalculated);
+						//End
                         expandButtonParent.id = "toolbarInlineEditorFullscreen";
                         inlineEditorParent.id = "bodyInlineEditorFullscreen";
                         view.set( {
@@ -63,6 +138,24 @@ export default class FullScreen extends Plugin {
                     }
 				}
 				else {
+					function setInnerHeightCalculated(evt, name, isFocused) {
+						if (!isFocused) {
+							let inlineEditorMainBlur = expandButtonParent.children[2];
+							let inlineEditorBlur = inlineEditorMainBlur.children[0];
+							inlineEditorBlur.style.maxHeight = innerHeightCalculated + "px";
+							inlineEditorBlur.style.height = innerHeightCalculated + "px";
+							inlineEditorBlur.style.overflow = "auto";
+							inlineEditorMainBlur.style.height = innerHeightCalculated + "px";
+						}
+						else {
+							let inlineEditorMainFocus = expandButtonParent.children[2];
+							let inlineEditorFocus = inlineEditorMainFocus.children[0];
+							inlineEditorFocus.style.maxHeight = innerHeightCalculated + "px";
+							inlineEditorFocus.style.height = innerHeightCalculated + "px";
+							inlineEditorFocus.style.overflow = "auto";
+							inlineEditorMainFocus.style.height = innerHeightCalculated + "px";
+						}
+					};
 					expandButtonParent = expandButtonNode.parentElement;
 					while ( expandButtonParent != null ) {
 						if(expandButtonParent.className == 'ck ck-reset ck-editor ck-rounded-corners') {
@@ -73,6 +166,40 @@ export default class FullScreen extends Plugin {
 						}
 					}
 					if (classicEditorFullsceen == 1) {
+						let inlineEditorMain = expandButtonParent.children[2];
+						let inlineEditor = inlineEditorMain.children[0];
+						//Start finding Link/MathInput/BrokenLink button to add event listener
+						let toolbarGroup = expandButtonNode.parentElement;
+						while ( toolbarGroup != null ) {
+							if(toolbarGroup.className == 'ck ck-toolbar ck-toolbar_grouping') {
+								break;
+							}
+							else {
+								toolbarGroup = toolbarGroup.parentElement;
+							}
+						}
+						let toolbarItems = toolbarGroup.firstElementChild;
+						while (toolbarItems != null) {
+							if(toolbarItems.className == 'ck ck-toolbar__items') {
+								break;
+							}
+							else {
+								toolbarItems = toolbarItems.firstElementChild;
+							}
+						}
+						let toolbarItems2 = expandButtonNode.parentElement;
+						let linkButton = toolbarItems.children[10];
+						let mathInputButton = toolbarItems2.children[9];
+						let brokenLinkButton = toolbarItems2.children[11];
+						linkButton.removeEventListener("click", liftUpLinkPlugin, false);
+						mathInputButton.removeEventListener("click", liftUpMathInputPlugin);
+						brokenLinkButton.removeEventListener("click", liftUpBrokenLinkPlugin);
+						//End
+						//Start removing max-height for editable region
+						inlineEditor.removeAttribute('style');
+						inlineEditorMain.removeAttribute('style');
+						editor.ui.focusTracker.off('change:isFocused');
+						//End
 						expandButtonParent.removeAttribute('id');
 						view.set( {
 							label: 'Fullscreen',
@@ -84,7 +211,43 @@ export default class FullScreen extends Plugin {
 						classicEditorFullsceen=0;
 					}
 					else {
+						//Start finding Link/MathInput/BrokenLink button to add event listener
+						let toolbarGroup = expandButtonNode.parentElement;
+						while ( toolbarGroup != null ) {
+							if(toolbarGroup.className == 'ck ck-toolbar ck-toolbar_grouping') {
+								break;
+							}
+							else {
+								toolbarGroup = toolbarGroup.parentElement;
+							}
+						}
+						let toolbarItems = toolbarGroup.firstElementChild;
+						while (toolbarItems != null) {
+							if(toolbarItems.className == 'ck ck-toolbar__items') {
+								break;
+							}
+							else {
+								toolbarItems = toolbarItems.firstElementChild;
+							}
+						}
+						let toolbarItems2 = expandButtonNode.parentElement;
+						let linkButton = toolbarItems.children[10];
+						let mathInputButton = toolbarItems2.children[9];
+						let brokenLinkButton = toolbarItems2.children[11];
+						linkButton.addEventListener("click", liftUpLinkPlugin, false);
+						mathInputButton.addEventListener("click", liftUpMathInputPlugin);
+						brokenLinkButton.addEventListener("click", liftUpBrokenLinkPlugin);
+						//End
 						expandButtonParent.id = "classicEditorFullscreen";
+						let inlineEditorMain = expandButtonParent.children[2];
+						let inlineEditor = inlineEditorMain.children[0];
+						//Start setting max-height for editable region (so that the vertical scrollbar can auto display/hide)
+						inlineEditor.style.maxHeight = innerHeightCalculated + "px";
+						inlineEditor.style.height = innerHeightCalculated + "px";
+						inlineEditor.style.overflow = "auto";
+						inlineEditorMain.style.height = innerHeightCalculated + "px";
+						editor.ui.focusTracker.on('change:isFocused', setInnerHeightCalculated);
+						//End
 						view.set( {
 							label: 'Exit Fullscreen',
 							icon: MinimizeIcon,
