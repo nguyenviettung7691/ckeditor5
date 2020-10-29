@@ -22,15 +22,7 @@ export default class FullScreen extends Plugin {
 				let linkPluginPopup = linkPlugin.editor.ui.view.body._parentElement;
 				let linkPluginPopupToLift = linkPluginPopup.children[0];
 				linkPluginPopupToLift.style.zIndex = "10000";
-			}
-			let liftUpMathInputPlugin = function () {
-				let mathInputPlugin = document.getElementById("popup-math-input");
-				mathInputPlugin.style.zIndex = "10000";
-			}
-			let liftUpBrokenLinkPlugin = function () {
-				let brokenLinkPlugin = document.querySelector('[aria-hidden="false"]');
-				brokenLinkPlugin.style.zIndex = "10000";
-			}
+			};
             // Callback executed once the expand button is clicked.
             view.on( 'execute', (event) => {
 				let innerHeightCalculated = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
@@ -70,13 +62,8 @@ export default class FullScreen extends Plugin {
 								toolbarItems = toolbarItems.firstElementChild;
 							}
 						}
-						let toolbarItems2 = expandButtonNode.parentElement;
 						let linkButton = toolbarItems.children[10];
-						let mathInputButton = toolbarItems2.children[10];
-						let brokenLinkButton = toolbarItems2.children[12];
 						linkButton.removeEventListener("click", liftUpLinkPlugin, false);
-						mathInputButton.removeEventListener("click", liftUpMathInputPlugin);
-						brokenLinkButton.removeEventListener("click", liftUpBrokenLinkPlugin);
 						//End
 						let inlineEditor = editor.sourceElement;
 						let inlineEditorParent = editor.sourceElement.parentElement;
@@ -109,14 +96,8 @@ export default class FullScreen extends Plugin {
 								toolbarItems = toolbarItems.firstElementChild;
 							}
 						}
-						let toolbarItems2 = expandButtonNode.parentElement;
 						let linkButton = toolbarItems.children[10];
-						let mathInputButton = toolbarItems2.children[10];
-						let brokenLinkButton = toolbarItems2.children[12];
 						linkButton.addEventListener("click", liftUpLinkPlugin, false);
-						mathInputButton.addEventListener("click", liftUpMathInputPlugin);
-						brokenLinkButton.addEventListener("click", liftUpBrokenLinkPlugin);
-
 						//End
 						let inlineEditor = editor.sourceElement;
 						let inlineEditorParent = editor.sourceElement.parentElement;
@@ -187,13 +168,8 @@ export default class FullScreen extends Plugin {
 								toolbarItems = toolbarItems.firstElementChild;
 							}
 						}
-						let toolbarItems2 = expandButtonNode.parentElement;
 						let linkButton = toolbarItems.children[10];
-						let mathInputButton = toolbarItems2.children[9];
-						let brokenLinkButton = toolbarItems2.children[11];
 						linkButton.removeEventListener("click", liftUpLinkPlugin, false);
-						mathInputButton.removeEventListener("click", liftUpMathInputPlugin);
-						brokenLinkButton.removeEventListener("click", liftUpBrokenLinkPlugin);
 						//End
 						//Start removing max-height for editable region
 						inlineEditor.removeAttribute('style');
@@ -230,13 +206,8 @@ export default class FullScreen extends Plugin {
 								toolbarItems = toolbarItems.firstElementChild;
 							}
 						}
-						let toolbarItems2 = expandButtonNode.parentElement;
 						let linkButton = toolbarItems.children[10];
-						let mathInputButton = toolbarItems2.children[9];
-						let brokenLinkButton = toolbarItems2.children[11];
 						linkButton.addEventListener("click", liftUpLinkPlugin, false);
-						mathInputButton.addEventListener("click", liftUpMathInputPlugin);
-						brokenLinkButton.addEventListener("click", liftUpBrokenLinkPlugin);
 						//End
 						expandButtonParent.id = "classicEditorFullscreen";
 						let inlineEditorMain = expandButtonParent.children[2];
