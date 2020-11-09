@@ -176,6 +176,12 @@ export default class FullScreen extends Plugin {
 						inlineEditorMain.removeAttribute('style');
 						editor.ui.focusTracker.off('change:isFocused');
 						//End
+						//Apply in share mode
+						let globalModal = document.querySelector('[id="globalModal"], [class="modal in"]');
+						if (globalModal != null) {
+							globalModal.className = "modal in";
+						}
+						//End
 						expandButtonParent.removeAttribute('id');
 						view.set( {
 							label: 'Fullscreen',
@@ -218,6 +224,12 @@ export default class FullScreen extends Plugin {
 						inlineEditor.style.overflow = "auto";
 						inlineEditorMain.style.height = innerHeightCalculated + "px";
 						editor.ui.focusTracker.on('change:isFocused', setInnerHeightCalculated);
+						//End
+						//Apply in share mode
+						let globalModal = document.querySelector('[id="globalModal"], [class="modal in"]');
+						if (globalModal != null) {
+							globalModal.className = "modal in fullscreen";
+						}
 						//End
 						view.set( {
 							label: 'Exit Fullscreen',
