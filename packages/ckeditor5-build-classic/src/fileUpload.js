@@ -3,6 +3,7 @@ import FileDialogButtonView from '@ckeditor/ckeditor5-upload/src/ui/filedialogbu
 import FileRepository from '@ckeditor/ckeditor5-upload/src/filerepository';
 import Notification from '@ckeditor/ckeditor5-ui/src/notification/notification';
 import { findOptimalInsertionPosition } from '@ckeditor/ckeditor5-widget/src/utils';
+import { toWidget } from '@ckeditor/ckeditor5-widget/src/utils';
 
 /**
  * This plugin handles generic file uploads and render them as links.
@@ -16,7 +17,7 @@ export default class FileUpload extends Plugin {
 	static get requires() {
 		return [ FileRepository, Notification ];
     }
-    
+
     static get pluginName() {
 		return 'FileUpload';
     }
@@ -33,7 +34,8 @@ export default class FileUpload extends Plugin {
 				placeholderText: 'Uploading file...',
 				errorText: 'Uploading file failed!'
 			}
-        } );
+		} );
+		this.isVideo = false;
     }
 
     /**
@@ -51,7 +53,7 @@ export default class FileUpload extends Plugin {
 		schema.extend( 'paragraph', {
 			allowAttributes: [ 'uploadId', 'uploadStatus' ]
         } );
-        
+
         // Register upcast converter for uploadId.
 		conversion.for( 'upcast' )
         .attributeToAttribute( {
@@ -86,7 +88,11 @@ export default class FileUpload extends Plugin {
             } );
 
             view.on( 'done', ( evt, files ) => {
-                const filesToUpload = Array.from( files ).filter( file => fileTypesRegExp.test( this.getExt(file.name) ) );
+				const filesToUpload = Array.from( files ).filter( file => fileTypesRegExp.test( this.getExt(file.name) ) );
+				let fileExtension =  filesToUpload[0].name.substr(filesToUpload[0].name.lastIndexOf('.')).toLowerCase();
+				if (fileExtension == ".mp4") {
+					this.isVideo = true;
+				}
                 if ( filesToUpload.length ) {
                     const model = editor.model;
                     const fileRepository = editor.plugins.get( FileRepository );
@@ -110,7 +116,7 @@ export default class FileUpload extends Plugin {
 
             return view;
 		} );
-		
+
 		// Upload placeholder element that appeared in the model.
 		doc.on( 'change', () => {
 			const changes = doc.differ.getChanges( { includeChangesInGraveyard: true } );
@@ -123,7 +129,7 @@ export default class FileUpload extends Plugin {
 					for ( const filteredItem of filterFromChangeItem( editor, item ) ) {
 						// Check if the upload file still has upload id.
 						const uploadId = filteredItem.getAttribute( 'uploadId' );
-						
+
 						if ( !uploadId ) {
 							continue;
 						}
@@ -146,8 +152,54 @@ export default class FileUpload extends Plugin {
 				}
 			}
 		} );
+		const attrkeys = ['src', 'controls', 'width'];
+		//schema
+		editor.model.schema.register('video', {
+			allowWhere: '$text',
+			allowAttributes: attrkeys,
+			isObject: true,
+			isBlock:  true,
+		});
+		editor.model.schema.extend( '$text', {
+			allowIn: 'video'
+		} );
+		//---conversion
+		editor.conversion.for( 'editingDowncast' ).elementToElement(
+			{
+				model: 'video',
+				view: ( modelItem, viewWriter ) => {
+					const widgetElement = viewWriter.createContainerElement( 'video' );
+					return toWidget( widgetElement, viewWriter );
+				}
+			}
+		);
+		editor.conversion.for( 'dataDowncast' ).elementToElement(
+			( {
+				model: 'video',
+				view: 'video'
+			} )
+		);
+		editor.conversion.for( 'upcast' ).elementToElement(
+			( {
+				view: 'video',
+				model: 'video'
+			} )
+		);
+		//attribute conversion
+		for (let a=0; a<attrkeys.length; a++){
+			editor.conversion.for( 'downcast' ).attributeToAttribute( ( {
+				model: attrkeys[a],
+				view: attrkeys[a],
+				converterPriority: 'low'
+			} ) );
+			editor.conversion.for( 'upcast' ). attributeToAttribute( {
+				view: attrkeys[a],
+				model: attrkeys[a],
+				converterPriority: 'low'
+			} );
+		}
     }
-    
+
     /**
 	 * Reads and uploads a file.
 	 *
@@ -190,6 +242,20 @@ export default class FileUpload extends Plugin {
 					writer.setSelection( placeholderElement, 'in' );
                     const linkedText = writer.createText( (data.name || data.default), { linkHref: data.default } );
 					model.insertContent( linkedText );
+					if (this.isVideo) {
+						let linkFile = data.default + "";
+						model.change( writer => {
+							const elem = writer.createElement( 'video', {src:linkFile, controls:true, width:"100%"} );
+							writer.appendText('video', elem);
+							const insertAtSelection = model.document.selection.getFirstPosition();
+							model.insertContent( elem, insertAtSelection );
+
+							if ( elem.parent ) {
+								writer.setSelection( elem, 'on' );
+							}
+						});
+						this.isVideo = false;
+					}
 				} );
 
 				clean();
@@ -236,7 +302,7 @@ export default class FileUpload extends Plugin {
 
 function filterFromChangeItem( editor, item ) {
     return Array.from( editor.model.createRangeOn( item ) )
-		.filter( value => { 
+		.filter( value => {
 			return value.item.hasAttribute('uploadId') || value.item.is('element', 'paragraph');})
 		.map( value => value.item );
 }
