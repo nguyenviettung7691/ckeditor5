@@ -90,7 +90,7 @@ export default class FileUpload extends Plugin {
             view.on( 'done', ( evt, files ) => {
 				const filesToUpload = Array.from( files ).filter( file => fileTypesRegExp.test( this.getExt(file.name) ) );
 				let fileExtension =  filesToUpload[0].name.substr(filesToUpload[0].name.lastIndexOf('.')).toLowerCase();
-				if (fileExtension == ".mp4") {
+				if (fileExtension == ".mp4" || fileExtension == ".ogv" || fileExtension == ".m4v") {
 					this.isVideo = true;
 				}
                 if ( filesToUpload.length ) {
