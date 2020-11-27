@@ -25,6 +25,11 @@ export default class FullScreen extends Plugin {
 			};
             // Callback executed once the expand button is clicked.
             view.on( 'execute', (event) => {
+				function restartBodyOverflow() {
+					event.source.element.click();
+					setTimeout(function() {window.removeEventListener('popstate', restartBodyOverflow)}, 1000);
+				}
+				window.addEventListener('popstate', restartBodyOverflow);
 				let innerHeightCalculated = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 				let expandButtonNode = event.source.element;
 				let expandButtonParent = expandButtonNode.parentElement;
