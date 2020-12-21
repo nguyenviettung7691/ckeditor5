@@ -5,10 +5,11 @@ export default class LearningPathPreview extends Plugin {
 		super(editor);
 		editor.model.document.on('change:data', () => {
 			let dataInput = editor.getData();
-			let dataInputContent = dataInput.replace(/<[^>]+>/g, ' ');
-			let finalContentArray = dataInputContent.split(" ");
+			let dataInputContent = dataInput.replace(/<\s*a[^>]*>|<\s*\/\s*a>/g, '|a|');
+			let dataInputContent2 = dataInputContent.replace(/<[^>]+>/g, ' ');
+			let finalContentArray = dataInputContent2.split(" ");
 			//Kiem tra co phai link learningPath ko
-			let filteredLinksArray = finalContentArray.filter( (link) => link.includes("fromlmm") == true );
+			let filteredLinksArray = finalContentArray.filter( (link) => ( (link.includes("fromlmm") == true) &&  (link.includes("|a|") == true) ) );
 			let learningPathIdArray = [];
 			for (let i=0; i<filteredLinksArray.length; i++) {
 				//Chat learningPathId ra
