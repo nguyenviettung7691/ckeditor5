@@ -17,11 +17,11 @@
     display: block
 }
 
-#toolbarInlineEditorFullscreen .ck.ck-toolbar.ck-toolbar_grouping.ck-toolbar_floating {
+#toolbarInlineEditorFullscreen > .ck.ck-toolbar.ck-toolbar_grouping.ck-toolbar_floating {
 	max-width: 9999px !important;
 }
 
-#bodyInlineEditorFullscreen .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred, #bodyInlineEditorFullscreen .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused{
+#bodyInlineEditorFullscreen > .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-blurred, #bodyInlineEditorFullscreen > .ck.ck-content.ck-editor__editable.ck-rounded-corners.ck-editor__editable_inline.ck-focused{
 	position: fixed;
 	z-index: 9999;
 	top: 40px;
