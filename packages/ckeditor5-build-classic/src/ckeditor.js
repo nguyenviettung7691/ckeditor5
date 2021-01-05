@@ -48,6 +48,7 @@ import MathInput from './mathInput';
 import BrokenLink from './brokenLink';
 import Fullscreen from './fullscreen-plugin/FullScreen';
 import LearningPathPreview from './learningPathPreview';
+import ScreenRecord from './screenRecord';
 
 // Inspector (REMOVE for Production)
 import CKEditorInspector from '@ckeditor/ckeditor5-inspector';
@@ -56,7 +57,7 @@ class ClassicEditor extends ClassicEditorBase { }
 class InlineEditor extends InlineEditorBase { }
 
 // Custom plugin
-const customPlugins = [MathInput, BrokenLink, FileUpload, Fullscreen, LearningPathPreview];
+const customPlugins = [MathInput, BrokenLink, FileUpload, Fullscreen, LearningPathPreview, ScreenRecord];
 
 // Plugins to include in the build.
 const plugins = [
@@ -111,6 +112,7 @@ const config = {
 			'mathInput',
 			'fileUpload',
 			'brokenLink',
+			'screenRecord',
 			'|',
 			'undo',
 			'redo'
