@@ -51,7 +51,7 @@ import LearningPathPreview from './learningPathPreview';
 import ScreenRecord from './screenRecord';
 
 // Inspector (REMOVE for Production)
-import CKEditorInspector from '@ckeditor/ckeditor5-inspector';
+// import CKEditorInspector from '@ckeditor/ckeditor5-inspector';
 
 class ClassicEditor extends ClassicEditorBase { }
 class InlineEditor extends InlineEditorBase { }
