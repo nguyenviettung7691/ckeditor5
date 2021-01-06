@@ -173,6 +173,8 @@ ClassicEditor.defaultConfig = config;
 InlineEditor.defaultConfig = config;
 
 export default {
-	ClassicEditor, InlineEditor, CKEditorInspector
+	ClassicEditor, 
+	InlineEditor, 
+	// CKEditorInspector
 };
 
