@@ -92,31 +92,15 @@ InlineEditor.builtinPlugins = builtinPlugins;
 const config = {
 	toolbar: {
 		items: [
-			'heading',
-			'fontSize', 'fontColor', 'fontBackgroundColor',
-			'|',
-			'bold', 'italic', 'underline', 'subscript', 'superscript',
-			'link',
-			'bulletedList',
-			'numberedList',
-			'horizontalLine',
-			'fullScreen',
-			'|',
-			'indent',
-			'outdent',
-			'|',
-			'imageUpload',
-			'blockQuote',
-			'insertTable',
-			'mediaEmbed',
-			'mathInput',
-			'fileUpload',
-			'brokenLink',
-			'screenRecord',
-			'|',
-			'undo',
-			'redo'
-		]
+			'heading', 'fontSize', 'fontColor', 'fontBackgroundColor',
+			'|', 'bold', 'italic', 'underline', 
+			'|', 'subscript', 'superscript', 'link',
+			'|', 'bulletedList', 'numberedList', 'horizontalLine', 'fullScreen',
+			'|', 'indent', 'outdent',
+			'|', 'blockQuote', 'insertTable', 'mediaEmbed', 'brokenLink',
+			'|', 'imageUpload', 'mathInput', 'fileUpload', 'screenRecord',
+			'|', 'undo', 'redo'
+		],
 	},
 	image: {
 		// Configure the available styles.
