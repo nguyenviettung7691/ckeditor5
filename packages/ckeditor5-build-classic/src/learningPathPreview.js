@@ -26,7 +26,7 @@ export default class LearningPathPreview extends Plugin {
 					learningPathIdArray.push(learningPathId);
 				}
 			}
-			csl.ckEditorWidget.example(editor, learningPathIdArray);
+			csl.ckEditorWidget.renderLearningPathPreview(editor, learningPathIdArray);
 		});
 	}
 }
