@@ -32,7 +32,7 @@ export default class FileUpload extends Plugin {
 		editor.config.define("file", {
 			upload: {
 				types:
-					"pdf,docx,xlsx,pptx,jpeg,jpg,gif,png,svg,mp3,ogg,mp4,m4v,ogv,html,zip",
+					"pdf,docx,xlsx,pptx,jpeg,jpg,gif,png,svg,mp3,ogg,mp4,m4v,mov,ogv,html,zip",
 				placeholderText: "Uploading file...",
 				errorText: "Uploading file failed!",
 			},
